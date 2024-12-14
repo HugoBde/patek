@@ -1,0 +1,4 @@
+(executable
+ (public_name patek)
+ (name main)
+ (libraries patek unix))
