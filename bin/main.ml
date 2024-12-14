@@ -6,9 +6,23 @@ let start_daemon () =
   | _ -> print_endline "Started patek daemon"
 ;;
 
-let stop_daemon () = print_endline "stopping daemon..."
-let start_task () = print_endline "starting task ..."
-let end_task () = print_endline "ending task ..."
+let stop_daemon () = Client.client_req_send Request.Quit
+
+let start_task () =
+  try
+    let task_name = Array.get Sys.argv 2 in
+    Client.client_req_send (Request.TaskStart task_name)
+  with
+  | Invalid_argument _ -> print_endline "Missing task name"
+;;
+
+let end_task () =
+  try
+    let task_name = Array.get Sys.argv 2 in
+    Client.client_req_send (Request.TaskStart task_name)
+  with
+  | Invalid_argument _ -> print_endline "Missing task name"
+;;
 
 let print_help () =
   print_endline "Usage: ./patek <command>";
